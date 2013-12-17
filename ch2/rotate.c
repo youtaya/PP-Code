@@ -8,7 +8,7 @@ void rotate(char *str, int n, int i)
     int k, j;
     int loop = n/i;
     int left = n%i;
-    printf("loop number is %d\n", loop);
+    //printf("loop number is %d\n", loop);
     temp0 = str[0];
     for(k=0;k<i;k++)
     {
@@ -39,17 +39,53 @@ void rotate(char *str, int n, int i)
 
 }
 
+void rotate2(char *str, int n, int i)
+{
+
+}
+
+void reverse(char *str, int start, int stop)
+{
+    int i,j;
+    int len = stop-start;
+    int range = len/2;
+    char temp;
+    for(j=0;j<range;j++)
+    {
+	temp = str[start+j];
+	str[start+j] = str[stop-1-j];
+	str[stop-1-j] = temp;
+    }
+
+}
+void rotate3(char *str, int n, int i)
+{
+    reverse(str,0,i);
+    reverse(str,i,n);
+    reverse(str,0,n);
+}
+
 int main(int argc, char* argv[])
 {
     int i;
     int len;
     char a[]={'a','b','c','d','e','f','g'};
-    //char a[]={'a','b','c','d','e','f','g','h','i'};
+    char b[]={'a','b','c','d','e','f','g','h','i'};
+    //not support this case:
+    //char c[]={'a','b','c','d','e'};
+
     len = sizeof(a);
-    rotate(a, len, 3);
+    rotate3(a, len, 3);
     for(i=0;i<len;i++)
 	    printf("%c ",a[i]);
     printf("\n");
+
+    len = sizeof(b);
+    rotate3(b, len, 3);
+    for(i=0;i<len;i++)
+	    printf("%c ",b[i]);
+    printf("\n");
+
     return 0;
 }
 
