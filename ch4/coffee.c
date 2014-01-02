@@ -1,9 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define whiteBean 17
-#define blackBean 17
-
 void colorLeft(int w, int b)
 {
 	int choose;
@@ -38,8 +35,16 @@ void colorLeft(int w, int b)
 
 }
 
-int main()
+int main(int argc, char* argv[])
 {
+	int whiteBean;
+	int blackBean;
+
+	whiteBean = atoi(argv[1]);
+	blackBean = atoi(argv[2]);
+	
+
+	printf("black is %d, white is %d\n", whiteBean, blackBean);
 	srand((int)time(0));
 	colorLeft(whiteBean,blackBean);
 	return 0;
