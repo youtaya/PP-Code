@@ -2,71 +2,50 @@
 #include <stdlib.h>
 
 #define MOU 10000
-int m[MOU/2],n[MOU/2];
+int org[MOU];
 
-int biSection(int *raw1,int *raw2, int left, int right, int old,int range)
+void biSearch(int *raw, int l, int u, int findValue)
 {
-    int i=0;
-    int newl,newr;
-    int *newD1,*newD2;
-    int mid,newRange;
-    newl=newr=0;
-    newD1=malloc(sizeof(int)*range);
-    newD2=malloc(sizeof(int)*range);
-
-
-    if(0==left||0==right||0==range) {
-        printf("miss %d\n",old);
-        free(newD1);
-        free(newD2);
-        return 0;
-    }else if(left<right){
-
-        for(i=0;i<left;i++) {
-            mid = old-range;
-            if(raw1[i] < mid || raw1[i] == mid) {
-                newD1[newl++] = raw1[i];
-            }else {
-                newD2[newr++] = raw1[i];
-            }
-        }
-        newRange = range/2;
-        biSection(&newD1[0],&newD2[0],newl,newr,mid,newRange);
-    }else {
-        for(i=0;i<right;i++) {
-            mid = old+range;
-            if(raw2[i] < mid || raw2[i] == mid) {
-                newD1[newl++] = raw2[i];
-            }else {
-                newD2[newr++] = raw2[i];
-            }
-        }
-        newRange = range/2;
-        biSection(&newD1[0],&newD2[0],newl,newr,mid,newRange);
+    int temp = findValue;
+    int left, right;
+    if(l>u|l==u) {
+        printf("not find %d\n", findValue);
+        return;
     }
-
-    free(newD1);
-    free(newD2);
-
-    printf("finish or not!\n");
-    return 0;
+    
+    if(temp == raw[u/2]) {
+        printf("good luck!");
+        left = l;
+        right = u/2;
+        temp = (raw[left]+raw[right-1])/2;
+        biSearch(raw,left, right,temp);
+    } else if(temp < raw[u/2]){
+        left = u/2;
+        right = u;
+        biSearch(raw, left,right,temp);
+    } else {
+        left = l;
+        right = u/2;
+        biSearch(raw,left, right,temp);
+    }
 }
-
+int myCount(const void *v1, const void *v2)
+{
+    return (*(int *)v1-*(int *)v2);
+}
 int main() 
 {
     int data;
-    int i,j,x;
-    i = 0;
-    j = 0;
-    while(scanf("%d", &data)!=EOF) {
-        if(data < MOU/2 || data == MOU/2) {
-            m[i++] = data;
-        }else {
-            n[j++] = data;
-        }
-    }
+    int temp;
+    int i = 0;
 
-    biSection(&m[0],&n[0],i,j,MOU/2,MOU/4);
+    while(scanf("%d", &data)!=EOF) {
+
+        org[i++] = data;
+    }
+    qsort(org,i,sizeof(int),myCount);
+    temp = (org[0]+org[i-1])/2;
+    biSearch(org, 0, i,temp);
 
     return 0;
 }
