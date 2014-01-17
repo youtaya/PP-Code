@@ -19,10 +19,9 @@ void find_sub_vector()
 			for(k=j;k<i;k++)
 			{
 
-				sum += vect[k];
-				printf("start : [%d], end : [%d], sum : %d\n", j, i, sum);
+				sum += vect[k];		
 			}
-
+			printf("start : [%d], end : [%d], sum : %d\n", j, i, sum);
 			tmp = (sum>tmp)?sum:tmp;
 			sum = 0;
 		}
