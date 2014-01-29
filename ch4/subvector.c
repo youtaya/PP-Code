@@ -89,10 +89,67 @@ void find_sub_vector_03()
 	printf("%d steps to cal: sub vector max is %d\n", count, tmp);
 }
 
+int omax(int v1, int v2)
+{
+	return ((v1-v2)>0?v1:v2);
+}
+
+int emax(int v1, int v2, int v3, int v4)
+{
+	int tmp;
+	tmp = (v1-v2)>0?v1:v2;
+	tmp = (tmp-v3)>0?tmp:v3;
+	tmp = (tmp-v4)>0?tmp:v4;
+	return tmp;
+}
+
+int maxsum(int left, int right)
+{
+	int m;
+	int i, j;
+	int sum, tmp;
+	int lmax, rmax;
+
+	
+
+	if(left>right)
+		return 0;
+
+	if(left == right)
+		return omax(0,vect[left]);
+
+	printf("(1)left : %d, right : %d\n", left, right);
+	m = (left+right)/2;
+
+	lmax = sum = 0;
+	for(i=left;i<=m;i++)
+	{
+		sum += vect[i];
+		lmax = omax(lmax, sum);
+	}
+
+	rmax = sum = 0;
+
+	for(i=m+1;i<=right;i++)
+	{
+		sum += vect[i];
+		rmax = omax(rmax, sum);
+	}
+	printf("(2)left : %d, right : %d\n", lmax, rmax);
+
+	return emax(lmax,rmax, maxsum(left, m), maxsum(m+1,right));
+
+}
+// not suitable for small vector!!
+void divide_conquer()
+{
+	int res = maxsum(0,len-1);
+	printf("result is %d\n", res);
+
+}
+
 int main()
 {
-	find_sub_vector_01();
-	find_sub_vector_02();
-	find_sub_vector_03();
+	divide_conquer();
     return 0;
 }
