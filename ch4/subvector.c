@@ -147,9 +147,23 @@ void divide_conquer()
 	printf("result is %d\n", res);
 
 }
+void scan_throgh()
+{
+	int i;
+	int maxsofar = 0;
+	int maxending = 0;
+
+	for(i=0;i<len;i++)
+	{
+		maxending = omax(maxending+vect[i], 0);
+		maxsofar = omax(maxsofar, maxending);
+	}
+
+	printf("maxsofar: %d, maxending: %d\n", maxsofar, maxending);
+}
 
 int main()
 {
-	divide_conquer();
+	scan_throgh();
     return 0;
 }
