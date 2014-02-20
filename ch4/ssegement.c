@@ -34,54 +34,91 @@ seg_map smap[] = {
 
 int test_data[] = {6,5,5,3,5};
 
-void display_segment(seg_map var)
+void print210(int *v1)
 {
-
-	printf("var is: %d\n", var.value);
 	int i;
-	for(i=0;i<7;i++)
-		printf("%d: ",var.bit_show[i]);
+	for(i=0;i<5;i++)
+	{
+		if(v1[i])
+			printf(" %s","___");
+		else
+			printf(" %s","   ");
+		printf("\t");
+	}
+
 	printf("\n");
 
+}
+typedef struct secondLine {
+	int vertical1;
+	int horital;
+	int vertical2;
+}secLine;
+
+void print3456(secLine *v1)
+{
+	int i;
+	for(i=0;i<5;i++)
 	{
-
-        if(var.bit_show[2])
-        	printf("%s\n"," ___");
-        else
-        	printf("%s\n","   ");
-        if(var.bit_show[3])
-        	printf("%c",'|');
-        else
+		if(v1[i].vertical1)
+			printf("%c",'|');
+		else
 			printf("%c",' ');
 
-        if(var.bit_show[1])
-        	printf("%s","___");
-        else
-        	printf("%s","   ");;
+		if(v1[i].horital)
+			printf("%s","___");
+		else
+			printf("%s","   ");
 
-        if(var.bit_show[4])
-        	printf("%c\n",'|');
-        else
-			printf("%c\n",' ');
-
-        if(var.bit_show[5])
-        	printf("%c",'|');
-        else
+		if(v1[i].vertical2)
+			printf("%c",'|');
+		else
 			printf("%c",' ');
 
-        if(var.bit_show[0])
-        	printf("%s","___");
-        else
-        	printf("%s","   ");;
-
-        if(var.bit_show[6])
-        	printf("%c\n",'|');
-        else
-			printf("%c\n",' ');		
+		printf("\t");
 
 	}
+	printf("\n");
 }
 
+
+void display_segment2(seg_map *var)
+{
+
+	int i,j;
+	int seg_table[7] = {2,3,1,4,5,0,6};
+
+	secLine **sl = (secLine **)malloc(sizeof(secLine *)*2);
+	sl[0] = (secLine *)malloc(sizeof(secLine)*5);
+	sl[1] = (secLine *)malloc(sizeof(secLine)*5);
+
+	memset(sl[0],0,sizeof(secLine)*5);
+	memset(sl[1],0,sizeof(secLine)*5);
+
+	int line0[5];
+	for(i=0;i<5;i++)
+	{
+		line0[i] = var[i].bit_show[2];
+	}
+	for(j=0;j<2;j++)
+	{
+		for(i=0;i<5;i++)
+		{
+			sl[j][i].vertical1 = var[i].bit_show[seg_table[j*3+1]];
+			sl[j][i].horital = var[i].bit_show[seg_table[j*3+2]];
+			sl[j][i].vertical2 = var[i].bit_show[seg_table[j*3+3]];
+		}
+	}
+
+	print210(line0);
+
+	print3456(sl[0]);
+	print3456(sl[1]);
+
+	free(sl[0]);
+	free(sl[1]);
+	free(sl);
+}
 void test_display()
 {
 	printf("%s\n"," ___");
@@ -106,8 +143,12 @@ void main()
         }
     }
 
+    /*
     for(i=0;i<test_len;i++)
     	display_segment(value[i]);
+    */
+
+    display_segment2(value);
 
     free(value);
 }
