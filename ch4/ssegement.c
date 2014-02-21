@@ -2,18 +2,6 @@
 #include <stdlib.h>
 
 
-#define N0 0x5F
-#define N1 0x05
-#define N2 0x76
-#define N3 0x75
-#define N4 0x2D
-#define N5 0x79
-#define N6 0x7B
-#define N7 0x15
-#define N8 0x7F
-#define N9 0x3D
-
-
 typedef struct segment_map {
     int value;
     int bit_show[7];
@@ -34,46 +22,56 @@ seg_map smap[] = {
 
 int test_data[] = {6,5,5,3,5};
 
-void print210(int *v1)
-{
-	int i;
-	for(i=0;i<5;i++)
-	{
-		if(v1[i])
-			printf(" %s","___");
-		else
-			printf(" %s","   ");
-		printf("\t");
-	}
 
-	printf("\n");
-
-}
 typedef struct secondLine {
 	int vertical1;
 	int horital;
 	int vertical2;
 }secLine;
 
+void printVertical(int v) 
+{
+	if(v)
+		printf("%c",'|');
+	else
+		printf("%c",' ');
+}
+
+void printHorizontal(int v)
+{
+	if(v)
+		printf("%s","___");
+	else
+		printf("%s","   ");	
+}
+
+void print210(int *v1)
+{
+	int i;
+	
+	for(i=0;i<5;i++)
+	{
+		printf("%c", ' ');
+		printHorizontal(v1[i]);
+
+		printf("\t");
+	}
+
+	printf("\n");
+
+}
+
 void print3456(secLine *v1)
 {
 	int i;
 	for(i=0;i<5;i++)
 	{
-		if(v1[i].vertical1)
-			printf("%c",'|');
-		else
-			printf("%c",' ');
 
-		if(v1[i].horital)
-			printf("%s","___");
-		else
-			printf("%s","   ");
+		printVertical(v1[i].vertical1);
 
-		if(v1[i].vertical2)
-			printf("%c",'|');
-		else
-			printf("%c",' ');
+		printHorizontal(v1[i].horital);
+
+		printVertical(v1[i].vertical2);
 
 		printf("\t");
 
