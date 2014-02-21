@@ -29,6 +29,11 @@ typedef struct secondLine {
 	int vertical2;
 }secLine;
 
+typedef struct wholeHouse {
+	int line0;
+	secLine *line12;
+} wholeHs;
+
 void printVertical(int v) 
 {
 	if(v)
@@ -78,7 +83,74 @@ void print3456(secLine *v1)
 	}
 	printf("\n");
 }
+void printWhoHs(wholeHs *whole)
+{
+	int i,j;
+	for(i=0;i<5;i++)
+	{
+		printf("%c", ' ');
+		printHorizontal(whole[i].line0);
 
+		printf("\t");
+	}
+	printf("\n");
+
+	for(j=0;j<2;j++)
+	{
+		for(i=0;i<5;i++)
+		{
+
+			printVertical(whole[i].line12[j].vertical1);
+
+			printHorizontal(whole[i].line12[j].horital);
+
+			printVertical(whole[i].line12[j].vertical2);
+
+			printf("\t");
+		}
+		printf("\n");
+	}
+			
+}
+
+void display_segment3(seg_map *var)
+{
+
+	int i,j;
+	int seg_table[7] = {2,3,1,4,5,0,6};
+
+	wholeHs *whl = (wholeHs *)malloc(sizeof(wholeHs)*5);
+	memset(whl,0,sizeof(wholeHs)*5);
+	for(i=0;i<5;i++)
+	{
+		whl[i].line12 = (secLine *)malloc(sizeof(secLine)*2);
+	}
+
+	for(i=0;i<5;i++)
+	{
+		memset(whl[i].line12,0,sizeof(secLine)*2);
+	}
+
+	for(i=0;i<5;i++)
+	{
+		whl[i].line0 = var[i].bit_show[2];
+		whl[i].line12[0].vertical1 = var[i].bit_show[3];
+		whl[i].line12[0].horital = var[i].bit_show[1];
+		whl[i].line12[0].vertical2 = var[i].bit_show[4];
+		whl[i].line12[1].vertical1 = var[i].bit_show[5];
+		whl[i].line12[1].horital = var[i].bit_show[0];
+		whl[i].line12[1].vertical2 = var[i].bit_show[6];
+	}
+
+
+
+	printWhoHs(whl);
+	for(i=0;i<5;i++)
+	{
+		free(whl[i].line12);
+	}
+	free(whl);
+}
 
 void display_segment2(seg_map *var)
 {
@@ -146,7 +218,7 @@ void main()
     	display_segment(value[i]);
     */
 
-    display_segment2(value);
+    display_segment3(value);
 
     free(value);
 }
