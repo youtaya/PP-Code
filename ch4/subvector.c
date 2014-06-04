@@ -94,11 +94,11 @@ int omax(int v1, int v2)
 	return ((v1-v2)>0?v1:v2);
 }
 
-int emax(int v1, int v2, int v3, int v4)
+int emax(int vv, int v3, int v4)
 {
 	int tmp;
-	tmp = (v1-v2)>0?v1:v2;
-	tmp = (tmp-v3)>0?tmp:v3;
+
+	tmp = (vv-v3)>0?vv:v3;
 	tmp = (tmp-v4)>0?tmp:v4;
 	return tmp;
 }
@@ -106,10 +106,9 @@ int emax(int v1, int v2, int v3, int v4)
 int maxsum(int left, int right)
 {
 	int m;
-	int i, j;
 	int sum, tmp;
 	int lmax, rmax;
-
+	int i = 0;
 	
 
 	if(left>right)
@@ -122,7 +121,7 @@ int maxsum(int left, int right)
 	m = (left+right)/2;
 
 	lmax = sum = 0;
-	for(i=left;i<=m;i++)
+	for(i=m;i>=left;i--)
 	{
 		sum += vect[i];
 		lmax = omax(lmax, sum);
@@ -137,10 +136,11 @@ int maxsum(int left, int right)
 	}
 	printf("(2)left : %d, right : %d\n", lmax, rmax);
 
-	return emax(lmax,rmax, maxsum(left, m), maxsum(m+1,right));
+	return emax(lmax+rmax, maxsum(left, m), maxsum(m+1,right));
 
 }
-// not suitable for small vector!!
+
+
 void divide_conquer()
 {
 	int res = maxsum(0,len-1);
@@ -164,6 +164,7 @@ void scan_throgh()
 
 int main()
 {
+	divide_conquer();
 	scan_throgh();
     return 0;
 }
