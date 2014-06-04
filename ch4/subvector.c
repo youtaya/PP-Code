@@ -4,6 +4,7 @@
 int vect[] = {12, -24, 31, -27, 11, 33, -24, 56, -9, -13, 8, 19, 22, -17, 9, 7};
 int len = sizeof(vect)/sizeof(int);
 
+#define MAX(a, b) ((a)>(b)?(a):(b))
 
 void find_sub_vector_01()
 {
@@ -25,7 +26,7 @@ void find_sub_vector_01()
 
 			printf("start : [%d], end : [%d], sum : %d\n", i, (j-1), sum);
 			count++;
-			tmp = (sum>tmp)?sum:tmp;
+			tmp = MAX(sum,tmp);
 			sum = 0;
 		}
 		
@@ -51,7 +52,7 @@ void find_sub_vector_02()
 
 			printf("start : [%d], end : [%d], sum : %d\n", i, j, sum);
 			count++;
-			tmp = (sum>tmp)?sum:tmp;
+			tmp = MAX(sum,tmp);
 		}
 		
 	}
@@ -81,7 +82,7 @@ void find_sub_vector_03()
 
 			printf("start : [%d], end : [%d], sum : %d\n", i, j, sum);
 			count++;
-			tmp = (sum>tmp)?sum:tmp;
+			tmp = MAX(sum,tmp);
 		}
 		
 	}
@@ -89,17 +90,13 @@ void find_sub_vector_03()
 	printf("%d steps to cal: sub vector max is %d\n", count, tmp);
 }
 
-int omax(int v1, int v2)
-{
-	return ((v1-v2)>0?v1:v2);
-}
 
 int emax(int vv, int v3, int v4)
 {
 	int tmp;
 
-	tmp = (vv-v3)>0?vv:v3;
-	tmp = (tmp-v4)>0?tmp:v4;
+	tmp = MAX(vv,v3);
+	tmp = MAX(tmp,v4);
 	return tmp;
 }
 
@@ -115,7 +112,7 @@ int maxsum(int left, int right)
 		return 0;
 
 	if(left == right)
-		return omax(0,vect[left]);
+		return MAX(0,vect[left]);
 
 	printf("(1)left : %d, right : %d\n", left, right);
 	m = (left+right)/2;
@@ -124,7 +121,7 @@ int maxsum(int left, int right)
 	for(i=m;i>=left;i--)
 	{
 		sum += vect[i];
-		lmax = omax(lmax, sum);
+		lmax = MAX(lmax, sum);
 	}
 
 	rmax = sum = 0;
@@ -132,7 +129,7 @@ int maxsum(int left, int right)
 	for(i=m+1;i<=right;i++)
 	{
 		sum += vect[i];
-		rmax = omax(rmax, sum);
+		rmax = MAX(rmax, sum);
 	}
 	printf("(2)left : %d, right : %d\n", lmax, rmax);
 
@@ -155,8 +152,8 @@ void scan_throgh()
 
 	for(i=0;i<len;i++)
 	{
-		maxending = omax(maxending+vect[i], 0);
-		maxsofar = omax(maxsofar, maxending);
+		maxending = MAX(maxending+vect[i], 0);
+		maxsofar = MAX(maxsofar, maxending);
 	}
 
 	printf("maxsofar: %d, maxending: %d\n", maxsofar, maxending);
